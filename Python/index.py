@@ -3,7 +3,12 @@ print("Content-Type: text/html")
 print()
 import cgi
 form = cgi.FieldStorage()
-pageId = form["id"].value
+if 'id' in form:
+    pageId = form["id"].value
+    description = open('data/'+pageId,'r').read()
+else:
+    pageId = 'Welcome'
+    description = 'Hello web'
 print('''<!doctype html>
 <html>
 <head>
@@ -19,10 +24,7 @@ print('''<!doctype html>
     <li><a href="index.py?id=JavaScript">JavaScript</a></li>
   </ol>
   <h2>{title}</h2>
-  <p>Doo doo, doo doo, doo doo
-  Doo doo, doo doo, doo doo, doo doo
-  Doo doo, doo doo, doo doo doo
-  Memories bring back, memories bring back you</p>
+  <p>{desc}</p>
 </body>
 </html>
-'''.format(title=pageId))
+'''.format(title=pageId, desc=description))
